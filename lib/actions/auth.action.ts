@@ -1,6 +1,7 @@
 "use server";
 
 import { auth, db } from "@/firebase/admin";
+import { where } from "firebase/firestore";
 import { cookies } from "next/headers";
 
 const ONE_WEEK = 60 * 60 * 24 * 7;
@@ -115,3 +116,17 @@ export async function isAuthenticated() {
 
   return !!user;
 }
+
+export async function signOut() {
+  const cookieStore = await cookies();
+  
+  // Clear the session cookie
+  cookieStore.delete("session");
+  
+  return {
+    success: true,
+    message: "Logged out successfully",
+  };
+}
+
+
